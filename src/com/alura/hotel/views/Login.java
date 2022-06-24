@@ -100,10 +100,8 @@ public class Login extends JFrame {
 				loginController.getLogin();
 				
 				
-				System.out.println("el usuario es " +  user);
-				System.out.println("la contraseña es " + contrasena);		
-
-				System.out.println("capture el boton login");
+				System.out.println("el usuario (en LOGIN.JAVA) es " +  user);
+				System.out.println("la contraseña (en LOGIN.JAVA) es " + contrasena);		
 				
 			if (loginController.usrPassOk(user, contrasena)) {		
 				MenuUsuario usuario = new MenuUsuario();

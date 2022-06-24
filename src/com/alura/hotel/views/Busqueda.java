@@ -6,6 +6,11 @@ import java.awt.EventQueue;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
+import javax.swing.table.DefaultTableModel;
+
+import com.alura.hotel.controller.HuespedController;
+import com.alura.hotel.modelo.Huesped;
+
 import javax.swing.JTable;
 import javax.swing.JTextField;
 import javax.swing.JButton;
@@ -26,7 +31,12 @@ public class Busqueda extends JFrame {
 	private JPanel contentPane;
 	private JTextField txtBuscar;
 	private JTable tbHuespedes;
-
+	HuespedController huespedController = new HuespedController();//ACA
+	
+	DefaultTableModel dtmModelo;
+	
+	
+	
 	/**
 	 * Launch the application.
 	 */
@@ -64,6 +74,8 @@ public class Busqueda extends JFrame {
 		JButton btnBuscar = new JButton("");
 		btnBuscar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				System.out.println("se apreto el buscar");
+				
 			}
 		});
 		btnBuscar.setBackground(Color.WHITE);
@@ -101,14 +113,50 @@ public class Busqueda extends JFrame {
 		panel.setBounds(10, 127, 874, 265);
 		contentPane.add(panel);
 		
+		
+		
+		
+
+		
+		
+		
+		
+		
+		
+		
 		tbHuespedes = new JTable();
 		tbHuespedes.setFont(new Font("Arial", Font.PLAIN, 14));
 		panel.addTab("Huéspedes", new ImageIcon(Busqueda.class.getResource("/imagenes/persona.png")), tbHuespedes, null);
 		
+		
+		
+		
+	
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
 		JTable tbReservas = new JTable();
 		tbReservas.setFont(new Font("Arial", Font.PLAIN, 14));
 		panel.addTab("Reservas", new ImageIcon(Busqueda.class.getResource("/imagenes/calendario.png")), tbReservas, null);
+
 		
+		
+		
+//		HuespedController huespedController = new HuespedController();//ACA ME MUESTRA LO QUE TIENE LA TABLA HUESPEDES, TENGO QUE HACER EL METODO GUARDAR TABLA
+		
+		
+		System.out.println(huespedController.listar());
+
 		JButton btnEliminar = new JButton("");
 		btnEliminar.setIcon(new ImageIcon(Busqueda.class.getResource("/imagenes/deletar.png")));
 		btnEliminar.setBackground(SystemColor.menu);
@@ -127,4 +175,15 @@ public class Busqueda extends JFrame {
 		contentPane.add(lblNewLabel_2);
 		setResizable(false);
 	}
+	
+//    private void cargarTabla() {
+//        var huespedes = this.huespedController.listar();
+//
+//        huespedes.forEach(huesped -> modelo.addRow(
+//                new Object[] {
+//                        producto.getId(),
+//                        producto.getNombre(),
+//                        producto.getDescripcion(),
+//                        producto.getCantidad() }));
+//    }
 }

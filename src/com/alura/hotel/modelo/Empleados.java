@@ -13,10 +13,6 @@ public class Empleados {
 
 	}
 	
-	public Empleados() {
-		// TODO Auto-generated constructor stub
-	}
-
 
 	public String getUser() {
 		return user;
@@ -25,7 +21,10 @@ public class Empleados {
 		return pass;
 	}
 	
-	
-	
+	@Override
+	public String toString() {
+        return this.user;
+    }
+
 	
 }
