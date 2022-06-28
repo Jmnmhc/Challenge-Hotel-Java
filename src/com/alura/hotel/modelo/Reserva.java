@@ -8,7 +8,6 @@ public class Reserva {
 	private Date fechaSalida;
 	private int valor;
 	private String formaPago;
-	private int idHuesped;
 	
 	
 	public Reserva(java.sql.Date entrada, java.sql.Date salida, int valor, String formaPago) {
@@ -31,7 +30,6 @@ public class Reserva {
 
 	}
 
-
 	public String getFechaEntrada() {
 		return fechaEntrada.toString();
 	}
@@ -52,11 +50,6 @@ public class Reserva {
 	}
 
 
-	public int getIdHuesped() {
-		return idHuesped;
-	}
-
-
 	public void setId(String id) {
 		this.id = id;
 		
@@ -67,5 +60,13 @@ public class Reserva {
 		return id;
 	}
 
+	 @Override
+	    public String toString() {
+	        return String.format(
+	                "{ id: %s, fecha_entrada: %s, fecha_salida: %s, valor: %d, formaPago: %s}",
+	                this.id, this.fechaEntrada, this.fechaSalida, this.valor, this.formaPago);
+	       
+	    }
 
+	 
 }

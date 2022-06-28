@@ -21,10 +21,11 @@ public class Empleados {
 		return pass;
 	}
 	
-	@Override
-	public String toString() {
-        return this.user;
-    }
-
+	  public String toString() {
+	        return String.format(
+	                "{ user: %s, pass: %s}",
+	                this.user, this.pass);
+	       
+	    }
 	
 }

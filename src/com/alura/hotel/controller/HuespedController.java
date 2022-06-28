@@ -16,12 +16,6 @@ public class HuespedController {
     	this.huespedDao = new HuespedDAO(factory.recuperaConexion());
     }
     
-    
-    public void mensaje(String texto) {
-    	
-    System.out.println("llamo correctamente al huesped controller, asi que: "+ texto);	
-    }
-    
     public void guardar (Huesped huesped, Reserva reserva) {
     	System.out.println("guardar del huesped controller");
     	huespedDao.guardar(huesped, reserva);
@@ -31,5 +25,15 @@ public class HuespedController {
         return huespedDao.listar();
     }
 
+    public List<Huesped> listarBusqueda(String textoBuscado) {
+        return huespedDao.listarBusqueda(textoBuscado);
+    }
+       
+    public int modificarHuespedes(Integer id, String nombre, String apellido, String nacionalidad, String telefono, String idReserva) {
+        return huespedDao.modificarHuespedes(id, nombre, apellido, nacionalidad, telefono, idReserva);
+    }    
     
+    public int borrarHuespedes(Integer id) {
+        return huespedDao.borrarHuespedes(id);
+    }
 }

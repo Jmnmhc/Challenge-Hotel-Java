@@ -1,7 +1,5 @@
 package com.alura.hotel.modelo;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.Date;
 
 public class Huesped {
@@ -12,8 +10,9 @@ public class Huesped {
 	private Date fechaNacimiento;
 	private String nacionalidad;
 	private String telefono;
+	private String idReserva;
 	
-	public Huesped(int id, String nombre, String apellido, Date fechaNacimiento, String nacionalidad, String telefono) {
+	public Huesped(int id, String nombre, String apellido, Date fechaNacimiento, String nacionalidad, String telefono, String idReserva) {
 
 		this.id = id;
 		this.nombre = nombre;
@@ -21,34 +20,20 @@ public class Huesped {
 		this.fechaNacimiento = fechaNacimiento;
 		this.nacionalidad = nacionalidad;
 		this.telefono = telefono;
+		this.idReserva = idReserva;
 	}
 
-	public Huesped(String nombre, String apellido, Date fechaNac, String nacionalidad, String telefono) {
-		
-		SimpleDateFormat formato = new SimpleDateFormat("yyyy-mm-dd");
-		Date dataFormateada = null;
-//		try {
-//			dataFormateada = formato.parse(fechaNac);
-//		} catch (ParseException e) {
-//			// TODO Auto-generated catch block
-//			e.printStackTrace();
-//		} 
-		
+	public Huesped(String nombre, String apellido, Date fechaNac, String nacionalidad, String telefono, String idReserva) {
+			
 		this.nombre = nombre;
 		this.apellido = apellido;
-//		this.fechaNacimiento = dataFormateada;
 		this.fechaNacimiento = fechaNac;
 		this.nacionalidad = nacionalidad;
-		this.telefono = telefono;
-
-		
-System.out.println("ENTRA AL CONSTRUCTOR");
-		
-		
+		this.telefono = telefono;		
+		this.idReserva = idReserva;
 	}
 
 	public String getNombre() {
-		System.out.println("LLAMA AL GETTER DE NOMBRE");
 		return nombre;
 	}
 
@@ -74,15 +59,19 @@ System.out.println("ENTRA AL CONSTRUCTOR");
 	}
 
 	public int getId() {
-		// TODO Auto-generated method stub
 		return id;
+	}
+	
+	public String getIdReserva() {
+		return idReserva;
+		
 	}
 	
 	 @Override
 	    public String toString() {
 	        return String.format(
-	                "{ id: %d, nombre: %s, apellido: %s, fecha_nacimiento: %s, nacionalidad: %s, telefono: %s}",
-	                this.id, this.nombre, this.apellido, this.fechaNacimiento.toString(), this.nacionalidad, this.telefono);
+	                "{ id: %d, nombre: %s, apellido: %s, fecha_nacimiento: %s, nacionalidad: %s, telefono: %s, idReserva: %s}",
+	                this.id, this.nombre, this.apellido, this.fechaNacimiento.toString(), this.nacionalidad, this.telefono, this.idReserva);
 	       
 	    }
 }

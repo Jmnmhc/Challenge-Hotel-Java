@@ -27,6 +27,8 @@ public class Login extends JFrame {
 	private JPanel contentPane;
 	private JTextField txtUsuario;
 	private JPasswordField txtContrasena;
+	
+	LoginController loginController = new LoginController();
 
 	/**
 	 * Launch the application.
@@ -68,7 +70,7 @@ public class Login extends JFrame {
 		contentPane.add(txtUsuario);
 		
 		
-		JLabel lblNewLabel_1_1_1 = new JLabel("Usuário");
+		JLabel lblNewLabel_1_1_1 = new JLabel("Usuario");
 		lblNewLabel_1_1_1.setFont(new Font("Arial", Font.PLAIN, 14));
 		lblNewLabel_1_1_1.setBounds(409, 156, 57, 14);
 		contentPane.add(lblNewLabel_1_1_1);
@@ -91,32 +93,67 @@ public class Login extends JFrame {
 		btnLogin.setIcon(new ImageIcon(Login.class.getResource("/imagenes/perfil-del-usuario.png")));
 		btnLogin.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-		
-				String user = txtUsuario.getText();		
-				String contrasena = new String(txtContrasena.getPassword());
 
-				LoginController loginController = new LoginController();
-					
-				loginController.getLogin();
 				
 				
-				System.out.println("el usuario (en LOGIN.JAVA) es " +  user);
-				System.out.println("la contraseña (en LOGIN.JAVA) es " + contrasena);		
+	//ADMIN			System.out.println("login controller"+loginController.listar(usuario, clave));
 				
-			if (loginController.usrPassOk(user, contrasena)) {		
-				MenuUsuario usuario = new MenuUsuario();
-				usuario.setVisible(true);
-				dispose();
+				String usuario = txtUsuario.getText();
+				String clave = new String(txtContrasena.getPassword());
 				
-				System.out.println(("JODEME QUE ENTRO JAJAJJA"));
-			} else {
+				boolean controlado = loginController.listar(usuario, clave);
 				
-				JOptionPane.showMessageDialog(null, "Verifique su USUARIO y CONTRASEÑA y vuelva a intentarlo", "Error de Login", 0, null);				
-				dispose();
-				MenuPrincipal.main(null);
-				System.out.println("no entro al if");
-			}
-			
+				
+				if (controlado) {
+					MenuUsuario user = new MenuUsuario();
+					user.setVisible(true);
+					dispose();
+				}
+				else {
+					JOptionPane.showMessageDialog(null, "Verifique su USUARIO y CONTRASEÑA y vuelva a intentarlo", "Error de Login", 0, null);				
+					dispose();
+					MenuPrincipal.main(null);
+
+				}
+				
+				
+				
+				
+//				
+//				revisarLogin(usuario);
+//				System.out.println("el usuario ingresado es= "+ usuario);
+//				System.out.println("la contraseña ingresada es= "+ clave);
+//				
+//				if(revisarUsuario(usuario) && revisarPass(clave)){
+//					System.out.println("correcto");
+//					
+//				}
+//				
+				
+//				String user = txtUsuario.getText();		
+//				String contrasena = new String(txtContrasena.getPassword());
+//
+//				LoginController loginController = new LoginController();
+//					
+//				loginController.getLogin();
+//				
+//				
+//				System.out.println("el usuario (en LOGIN.JAVA) es " +  user);
+//				System.out.println("la contraseña (en LOGIN.JAVA) es " + contrasena);		
+//				
+//			if (loginController.usrPassOk(user, contrasena)) {		
+//				MenuUsuario user = new MenuUsuario();
+//				user.setVisible(true);
+//				dispose();
+				
+//			} else {
+				
+//				JOptionPane.showMessageDialog(null, "Verifique su USUARIO y CONTRASEÑA y vuelva a intentarlo", "Error de Login", 0, null);				
+//				dispose();
+//				MenuPrincipal.main(null);
+//				System.out.println("no entro al if");
+//			}
+//			
 			}
 		});
 		btnLogin.setBounds(409, 322, 103, 33);
@@ -142,4 +179,24 @@ public class Login extends JFrame {
 		lblNewLabel_1.setBounds(470, 30, 103, 94);
 		contentPane.add(lblNewLabel_1);
 	}
+
+//	public boolean revisarUsuario(String usuario) {
+//		
+//		return LoginController.revisarUsuario(usuario);
+//	}
+//	
+	
+//	public boolean revisarLogin(String Usuario){
+//		
+//		
+//		
+//		var empleados = this.loginController.listar();
+//
+//		empleados.forEach(
+//				huesped -> modelo.addRow(new Object[] { huesped.getId(), huesped.getNombre(), huesped.getApellido(),
+//						huesped.getFechaNacimiento(), huesped.getNacionalidad(), huesped.getTelefono(), huesped.getIdReserva() }));
+//		
+//		
+//		return true;
+//	}
 }
