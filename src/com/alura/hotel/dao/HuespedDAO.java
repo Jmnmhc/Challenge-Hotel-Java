@@ -23,34 +23,7 @@ public class HuespedDAO {
 	public void guardar(Huesped huesped, Reserva reserva) {
 
 		System.out.println("ESTE ES EL METODO GUARDAR DE HUESPED");
-		try {
-			PreparedStatement statement;
-			statement = con.prepareStatement("INSERT INTO HUESPEDES "
-					+ "(nombre, apellido, fecha_Nacimiento, nacionalidad, telefono, id_reserva)" + " VALUES (?, ?, ?, ?, ?,?)",
-					Statement.RETURN_GENERATED_KEYS);
-
-			try (statement) {
-				statement.setString(1, huesped.getNombre());
-				statement.setString(2, huesped.getApellido());
-				statement.setString(3, huesped.getFechaNacimiento());
-				statement.setString(4, huesped.getNacionalidad());
-				statement.setString(5, huesped.getTelefono());
-				statement.setString(6, huesped.getIdReserva());
-				statement.execute();
-
-				final ResultSet resultSet = statement.getGeneratedKeys();
-
-				try (resultSet) {
-					while (resultSet.next()) {
-						huesped.setId(resultSet.getInt(1));
-
-					}
-				}
-			}
-		} catch (SQLException e) {
-			throw new RuntimeException(e);
-		}
-
+		
 		try {
 			PreparedStatement statement2;
 			statement2 = con.prepareStatement("INSERT INTO RESERVAS "
@@ -79,6 +52,35 @@ public class HuespedDAO {
 		} catch (SQLException e) {
 			throw new RuntimeException(e);
 		}
+		try {
+			PreparedStatement statement;
+			statement = con.prepareStatement("INSERT INTO HUESPEDES "
+					+ "(nombre, apellido, fecha_Nacimiento, nacionalidad, telefono, id_reserva)" + " VALUES (?, ?, ?, ?, ?,?)",
+					Statement.RETURN_GENERATED_KEYS);
+
+			try (statement) {
+				statement.setString(1, huesped.getNombre());
+				statement.setString(2, huesped.getApellido());
+				statement.setString(3, huesped.getFechaNacimiento());
+				statement.setString(4, huesped.getNacionalidad());
+				statement.setString(5, huesped.getTelefono());
+				statement.setString(6, huesped.getIdReserva());
+				statement.execute();
+
+				final ResultSet resultSet = statement.getGeneratedKeys();
+
+				try (resultSet) {
+					while (resultSet.next()) {
+						huesped.setId(resultSet.getInt(1));
+
+					}
+				}
+			}
+		} catch (SQLException e) {
+			throw new RuntimeException(e);
+		}
+
+		
 
 	}
 
@@ -168,9 +170,31 @@ public class HuespedDAO {
 		return resultado;
 	}
 
+//	public int borrarHuespedes(Integer id) {
+//		try {
+//			final PreparedStatement statement = con.prepareStatement("DELETE FROM HUESPEDES WHERE ID = ?");
+//
+//			try (statement) {
+//				statement.setInt(1, id);
+//				statement.execute();
+//
+//				int updateCount = statement.getUpdateCount();
+//
+//				return updateCount;
+//			}
+//		} catch (SQLException e) {
+//			throw new RuntimeException(e);
+//		}
+//	}
+
+
 	public int borrarHuespedes(Integer id) {
 		try {
-			final PreparedStatement statement = con.prepareStatement("DELETE FROM HUESPEDES WHERE ID = ?");
+			final PreparedStatement statement = con.prepareStatement("DELETE HUESPEDES, RESERVAS "
+																		+ "FROM HUESPEDES "
+																		+ "JOIN RESERVAS "
+																		+ "ON HUESPEDES.ID_RESERVA = RESERVAS.ID "
+																		+ "WHERE HUESPEDES.ID = ?");
 
 			try (statement) {
 				statement.setInt(1, id);
@@ -184,4 +208,5 @@ public class HuespedDAO {
 			throw new RuntimeException(e);
 		}
 	}
+
 }

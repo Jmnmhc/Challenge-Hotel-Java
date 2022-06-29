@@ -28,9 +28,11 @@ import java.awt.Toolkit;
 
 public class Busqueda extends JFrame {
 
+	private static final long serialVersionUID = 1L;
 	private JPanel contentPane;
 	private JTextField txtBuscar;
 	private JTable tbHuespedes;
+	private JTable tbReservas;
 
 	private DefaultTableModel modelo;
 	private DefaultTableModel modelo2;
@@ -72,6 +74,13 @@ public class Busqueda extends JFrame {
 		contentPane.add(txtBuscar);
 		txtBuscar.setColumns(10);
 
+		/**
+		 * Boton Buscar: llama a borrarTablaHuespedes() y borrarTablaReserva() para limpiar los jtable
+		 * y a la variable textoBuscado (que contiene la cadena del cuadro de busqueda) la pasa como
+		 * parámetro para realizar la consulta en la base de datos, luego llama a filtrarTablaReserva() y
+		 * a filtrarTablaBusqueda() con el parametro textoBuscado
+		 */
+		
 		JButton btnBuscar = new JButton("");
 		btnBuscar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -81,8 +90,6 @@ public class Busqueda extends JFrame {
 				borrarTablaReserva();
 
 				huespedController.listarBusqueda(textoBuscado);
-
-				System.out.println(huespedController.listarBusqueda(textoBuscado));
 
 				filtrarTablaReserva(textoBuscado);
 				filtrarTablaHuesped(textoBuscado);
@@ -100,10 +107,17 @@ public class Busqueda extends JFrame {
 		btnEditar.setBounds(587, 416, 54, 41);
 		contentPane.add(btnEditar);
 
+		
+		/**
+		 * Boton editar: primero llama a seleccionoHuesped() para ver si hay una fila seleccionada, luego
+		 * hace un optional donde toma cual es el registro seleccionado, almacena sus datos en variables (id, nombre, apellido,
+		 * nacionalidad, telefono, idReserva) y los pasa como parametros para el metodo "modificarHuespedes()
+		 */
+		
 		btnEditar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 
-				if (selecciono()) {
+				if (seleccionoHuesped()) {
 					JOptionPane.showMessageDialog(null, "Por favor, elije un item");
 					return;
 				}
@@ -126,8 +140,11 @@ public class Busqueda extends JFrame {
 							JOptionPane.showMessageDialog(null,
 									String.format("%d item modificado con éxito!", filasModificadas));
 						}, () -> JOptionPane.showMessageDialog(null, "Por favor, elije un item"));
+				
 			}
 
+			
+			
 		});
 
 		JLabel lblNewLabel_4 = new JLabel("Sistema de Búsqueda");
@@ -159,6 +176,11 @@ public class Busqueda extends JFrame {
 		panel.addTab("Huéspedes", new ImageIcon(Busqueda.class.getResource("/imagenes/persona.png")), tbHuespedes,
 				null);
 
+		/**
+		 * Jtable tbHuespedes: crea la jtable e inicializa sus columnas, crea el primer registro con los nombres de los campos.
+		 * luego se llama a cargarTablaHuesped()
+		 */
+		
 		modelo = (DefaultTableModel) tbHuespedes.getModel();
 		modelo.addColumn("Nro de Huesped");
 		modelo.addColumn("Nombre");
@@ -168,7 +190,7 @@ public class Busqueda extends JFrame {
 		modelo.addColumn("Nro de Teléfono");
 		modelo.addColumn("Nro de Reserva");
 
-		Object[] listita = { "huesped", "nobre", "apellido", "nacimiento", "nacionalidad", "telefono", "Nro de Reserva" };
+		Object[] listita = { "huesped", "nombre", "apellido", "nacimiento", "nacionalidad", "telefono", "Nro de Reserva" };
 
 		modelo.addRow(listita);
 
@@ -178,6 +200,12 @@ public class Busqueda extends JFrame {
 		tbReservas.setFont(new Font("Arial", Font.PLAIN, 14));
 		panel.addTab("Reservas", new ImageIcon(Busqueda.class.getResource("/imagenes/calendario.png")), tbReservas,
 				null);
+
+		
+		/**
+		 * Jtable tbReservas: crea la tabla e inicializa sus columnas, crea el primer registro con los nombres de los campos.
+		 * luego se llama a cargarTablaReserva()
+		 */
 
 		modelo2 = (DefaultTableModel) tbReservas.getModel();
 		modelo2.addColumn("Codigo de Reservas");
@@ -199,38 +227,42 @@ public class Busqueda extends JFrame {
 		btnEliminar.setBounds(651, 416, 54, 41);
 		contentPane.add(btnEliminar);
 
+		/**
+		 * Boton eliminar: se fija si hay un registro seleccionado
+		 * luego crea un optional con el registro y llama a HuespedController.borrarHuespedes() con el id como parametro
+		 * para eliminar el registro.
+		 * llama a borrarTablaHuesped() y a cargarTablaHUesped() para mostrar el resultado final y a los de TbReservas
+		  */
+		
 		btnEliminar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 
-				if (selecciono()) {
+				if (seleccionoHuesped()) {
 					JOptionPane.showMessageDialog(null, "Por favor, elije un item");
 					return;
 				}
 
 				Optional.ofNullable(modelo.getValueAt(tbHuespedes.getSelectedRow(), tbHuespedes.getSelectedColumn()))
 						.ifPresentOrElse(fila -> {
-							Integer id = Integer.valueOf(modelo.getValueAt(tbHuespedes.getSelectedRow(), 0).toString());
+							Integer id = Integer.valueOf(modelo.getValueAt(tbHuespedes.getSelectedRow(), 0).toString());				
 							var filasModificadas = huespedController.borrarHuespedes(id);
 							borrarTablaHuesped();
 							cargarTablaHuesped();
+							borrarTablaReserva();
+							cargarTablaReserva();
+							
 							JOptionPane.showMessageDialog(null,
-									String.format("%d item eliminado con éxito!", filasModificadas));
-						}, () -> JOptionPane.showMessageDialog(null, "Por favor, elije un item"));
-
-				Optional.ofNullable(modelo2.getValueAt(tbReservas.getSelectedRow(), tbReservas.getSelectedColumn()))
-						.ifPresentOrElse(fila -> {
-							String id = String.valueOf(modelo2.getValueAt(tbReservas.getSelectedRow(), 0));
-							var filasModificadas = reservaController.borrarReservas(id);
-							borrarTablaHuesped();
-							cargarTablaHuesped();
-							JOptionPane.showMessageDialog(null,
-									String.format("%d item eliminado con éxito!", filasModificadas));
+									String.format("item eliminado con éxito!", filasModificadas));
 						}, () -> JOptionPane.showMessageDialog(null, "Por favor, elije un item"));
 
 			}
 
 		});
 
+		
+		/**
+		 * Boton Cancelar: borra y vuelve a cargar las tablas
+		  */
 		JButton btnCancelar = new JButton("");
 		btnCancelar.setIcon(new ImageIcon(Busqueda.class.getResource("/imagenes/cancelar.png")));
 		btnCancelar.setBackground(SystemColor.menu);
@@ -253,6 +285,10 @@ public class Busqueda extends JFrame {
 		setResizable(false);
 	}
 
+	
+	/*
+	 * cargarTablaHuesped(): llama a huespedController.listar() para realizar la carga de la Jtable tbHuespedes
+	 */
 	private void cargarTablaHuesped() {
 		var huespedes = this.huespedController.listar();
 
@@ -261,12 +297,21 @@ public class Busqueda extends JFrame {
 						huesped.getFechaNacimiento(), huesped.getNacionalidad(), huesped.getTelefono(), huesped.getIdReserva() }));
 	}
 
+	/*
+	 * cargarTablaReserva(): llama a reservaController.listar() para realizar la carga de la Jtable tbReserva
+	 */
 	private void cargarTablaReserva() {
 		var reservas = this.reservaController.listar();
 
 		reservas.forEach(reserva -> modelo2.addRow(new Object[] { reserva.getId(), reserva.getFechaEntrada(),
 				reserva.getFechaSalida(), reserva.getValor(), reserva.getFomaPago() }));
 	}
+
+	
+	/*
+	 * filtrarTablaHuesped(): recibe como parametro el texto a buscar, llama a reservaController.listarBusqueda() 
+	 * pasando el textoBuscado como parametro y despues realiza la carga de la JTable
+	 */
 
 	private void filtrarTablaHuesped(String textoBuscado) {
 		var huespedes = this.huespedController.listarBusqueda(textoBuscado);
@@ -275,7 +320,10 @@ public class Busqueda extends JFrame {
 				huesped -> modelo.addRow(new Object[] { huesped.getId(), huesped.getNombre(), huesped.getApellido(),
 						huesped.getFechaNacimiento(), huesped.getNacionalidad(), huesped.getTelefono(), huesped.getIdReserva() }));
 	}
-
+	/*
+	 * filtrarTablaReserva(): recibe como parametro el texto a buscar, llama a reservaController.listarBusqueda() 
+	 * pasando el textoBuscado como parametro y despues realiza la carga de la JTable
+	 */
 	private void filtrarTablaReserva(String textoBuscado) {
 		var reservas = this.reservaController.listarBusqueda(textoBuscado);
 
@@ -283,18 +331,32 @@ public class Busqueda extends JFrame {
 				reserva.getFechaSalida(), reserva.getValor(), reserva.getFomaPago() }));
 	}
 
+	/*
+	 * borrarTablaHuesped() borra todos los registros de la Jtable menos el "0" que es el agredado manualmente (los rotulos)
+	 */
 	private void borrarTablaHuesped() {
 		modelo.setRowCount(1);
 	}
-
+	
+	/*
+	 * borrarTablaReserva() borra todos los registros de la Jtable menos el "0" que es el agredado manualmente (los rotulos)
+	 */
 	private void borrarTablaReserva() {
 		modelo2.setRowCount(1);
 
 	}
 
-	private boolean selecciono() {
+	/*
+	 * seleccionoHuesped(): retorna true en caso de tener seleccionado algun registro, sirve para validar modificaciones y eliminaciones 
+	 * en la JTale tbHuespedes
+	 */
+	private boolean seleccionoHuesped() {
 		return (tbHuespedes.getSelectedRowCount() == 0 || tbHuespedes.getSelectedColumnCount() == 0);
 
 	}
 
+	private boolean seleccionoReserva() {
+		return (tbReservas.getSelectedRowCount()==0 || tbReservas.getSelectedColumnCount()==0);
+	}
+	
 }

@@ -1,6 +1,5 @@
 package com.alura.hotel.views;
 
-import java.awt.BorderLayout;
 import java.awt.EventQueue;
 
 import javax.swing.JFrame;
@@ -25,19 +24,16 @@ import java.awt.event.MouseEvent;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.sql.Date;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.temporal.ChronoUnit;
 import java.util.Calendar;
-import java.util.UUID;
-import java.util.concurrent.TimeUnit;
 
 import javax.swing.JButton;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import java.awt.Toolkit;
 
+@SuppressWarnings("serial")
 public class Reservas extends JFrame {
 
 	private JPanel contentPane;
@@ -62,6 +58,7 @@ public class Reservas extends JFrame {
 	/**
 	 * Create the frame.
 	 */
+	@SuppressWarnings({ "unchecked", "rawtypes" })
 	public Reservas() {
 		setIconImage(Toolkit.getDefaultToolkit().getImage(Reservas.class.getResource("/imagenes/calendario.png")));
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -81,10 +78,19 @@ public class Reservas extends JFrame {
 		contentPane.add(panel);
 		panel.setLayout(null);
 
+		
+		Calendar hoy = Calendar.getInstance();
+
+		/*
+		 * txtFechaS y txtFechaE tienen como fecha minima posible (.setrMinSelectableDate) a la fecha del dia de la reserva
+		 * eso impide generar una reserva con fecha pasada.
+		 */
+		
 		JDateChooser txtFechaE = new JDateChooser();
 		txtFechaE.setBounds(88, 166, 235, 33);
+		txtFechaE.setMinSelectableDate(hoy.getTime());
 		panel.add(txtFechaE);
-
+		
 		JLabel lblNewLabel_1 = new JLabel("Fecha de Check In");
 		lblNewLabel_1.setBounds(88, 142, 133, 14);
 		lblNewLabel_1.setFont(new Font("Arial", Font.PLAIN, 14));
@@ -98,8 +104,30 @@ public class Reservas extends JFrame {
 		JDateChooser txtFechaS = new JDateChooser();
 		txtFechaS.setBounds(88, 234, 235, 33);
 		txtFechaS.getCalendarButton().setBackground(Color.WHITE);
+		
+		
+		txtFechaS.setMinSelectableDate(hoy.getTime());
+
 		panel.add(txtFechaS);
 
+		/*
+		 * se sobreescribio el propertyChange del txtFechaE para que desde el momento que 
+		 * recibe el cambio de estado le pase a txtFechaS la fecha seleccionada (para facilitar
+		 * la eleccion de fecha de salida
+		 * 
+		 */
+		txtFechaE.addPropertyChangeListener(new PropertyChangeListener() {
+			@Override
+			public void propertyChange(PropertyChangeEvent event) {
+			txtFechaS.setDate(txtFechaE.getDate());
+			}
+		});
+	/*
+	 * se sobreescribio el propertyChange del txtFechaS para que desde el momento que 
+	 * recibe el cambio de estado genere el valor (se realizó sobre la salida porque 
+	 * está inhabilitado hasta poner la fecha de entrada
+	 * 
+	 */
 		txtFechaS.addPropertyChangeListener(new PropertyChangeListener() {
 			@Override
 			public void propertyChange(PropertyChangeEvent event) {
@@ -126,14 +154,17 @@ public class Reservas extends JFrame {
 
 					txtValor.setText(Long.toString(valorReserva));
 			
-				}
+				
 
+				}
+			
 			}
 		});
 
 		txtValor = new JTextField();
 		txtValor.setBounds(88, 303, 235, 33);
 		txtValor.setEnabled(false);
+		txtValor.setText("100");
 		panel.add(txtValor);
 		txtValor.setColumns(10);
 
@@ -148,18 +179,6 @@ public class Reservas extends JFrame {
 		txtFormaPago.setModel(new DefaultComboBoxModel(
 				new String[] { "Tarjeta de Crédito", "Tarjeta de Débito", "Dinero en efectivo" }));
 		panel.add(txtFormaPago);
-
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
 		
 		JLabel lblNewLabel_1_1_1_1 = new JLabel("Forma de pago");
 		lblNewLabel_1_1_1_1.setBounds(88, 347, 133, 24);
@@ -172,15 +191,37 @@ public class Reservas extends JFrame {
 		lblNewLabel_4.setFont(new Font("Arial", Font.BOLD, 20));
 		panel.add(lblNewLabel_4);
 
+		/*
+		 * Boton Reservar: pasa como parámetro los valores obtenidos en este menu
+		 * (txtFechaE.getDate(), txtFechaS.getDate, txtValor.getText, txtFormaPago.getSelectedItem.toString()) 
+		 * para que en menu siguiente guarde el registro completo en las dos tablas de la base de datos
+		 * 
+		 */	
+		
 		JButton btnReservar = new JButton("Continuar");
 		btnReservar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				
+				if (txtFechaE.getDate() == null) {
+					
+						JOptionPane.showMessageDialog(null,
+								"Verifique las fechas, debe ingresar entrada y salida",
+								"Error en la carga", 0);
+
+					}
+		
+				else
+				{
+				
+				
 				RegistroHuesped huesped = new RegistroHuesped(txtFechaE.getDate(), txtFechaS.getDate(), txtValor.getText(), txtFormaPago.getSelectedItem().toString());
 				huesped.setVisible(true);
 
-				dispose();
-				//final String mostrarAlla = "mostrame esta";
-				System.out.println("se apreto el boton continuar");
+				
+				
+				
+				
+				dispose();}
 			}
 		});
 		btnReservar.setForeground(Color.WHITE);
@@ -189,50 +230,6 @@ public class Reservas extends JFrame {
 		btnReservar.setBackground(new Color(65, 105, 225));
 		btnReservar.setFont(new Font("Arial", Font.PLAIN, 14));
 		panel.add(btnReservar);
-
-//		
-//		JButton btnCalcular = new JButton("Calcular");
-//		btnCalcular.addActionListener(new ActionListener() {
-//			public void actionPerformed(ActionEvent e) { 
-//				System.out.println("se apreto el boton nuevo");
-//					
-//				java.util.Date fechaEntrada = txtFechaE.getDate();
-//				java.util.Date fechaSalida = txtFechaS.getDate();
-//								
-//				int controlFecha = fechaEntrada.compareTo(fechaSalida);
-//				
-//				if (controlFecha == 1) {
-//					JOptionPane.showMessageDialog(null, "Verifique las fechas, la entrada no puede ser posterior a la salida", "Error en la carga", 0);
-//					main(null);
-//				}
-//				
-//				java.sql.Date entrada = new java.sql.Date(fechaEntrada.getTime());
-//				java.sql.Date salida = new java.sql.Date(fechaSalida.getTime());
-//				
-//				System.out.println("dias calculados "+calcularDias(entrada.toString(), salida.toString()));
-//				
-//				
-//				int valorNoche = 100;
-//				long valorReserva = valorNoche * (calcularDias(entrada.toString(), salida.toString()));
-//				
-//				
-//				txtValor.setText(Long.toString(valorReserva));
-//
-//			} 
-//		});
-//		
-//		
-//		
-//		btnCalcular.setForeground(Color.WHITE);
-//		btnCalcular.setBounds(88, 436, 115, 33);
-//		btnCalcular.setIcon(new ImageIcon(Reservas.class.getResource("/imagenes/calendario.png")));
-//		btnCalcular.setBackground(new Color(65,105,225));
-//		btnCalcular.setFont(new Font("Arial", Font.PLAIN, 14));
-//		panel.add(btnCalcular);
-//
-//		
-//		
-//		
 
 		JPanel panel_1 = new JPanel();
 		panel_1.setBackground(Color.WHITE);
@@ -252,6 +249,7 @@ public class Reservas extends JFrame {
 		panel.add(lblNewLabel_2);
 	}
 
+	@SuppressWarnings("unused")
 	private static void addPopup(Component component, final JPopupMenu popup) {
 		component.addMouseListener(new MouseAdapter() {
 			public void mousePressed(MouseEvent e) {
@@ -272,11 +270,17 @@ public class Reservas extends JFrame {
 		});
 	}
 
-	public long calcularDias(String entrada, String salida) {
+	
+	/*
+	 * calcularDias(): recibe los parametros entrada y salida para realizar el calculo
+	 * devuelve un long (realmente puse long porque pense en cobrar numeros redondos)
+	 * que es la cantidad de dias que va a estar, deberia haber regresado un int como mucho
+	 */
+	public int calcularDias(String entrada, String salida) {
 
 		LocalDate localDateEntrada = LocalDate.parse(entrada.toString());
 		LocalDate localDateSalida = LocalDate.parse(salida.toString());
-		long resultado = ChronoUnit.DAYS.between(localDateEntrada, localDateSalida);
+		int resultado = (int) ChronoUnit.DAYS.between(localDateEntrada, localDateSalida);
 		System.out.println("dias en el medio" + resultado);
 
 		return resultado;

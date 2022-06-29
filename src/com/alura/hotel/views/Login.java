@@ -1,6 +1,5 @@
 package com.alura.hotel.views;
 
-import java.awt.BorderLayout;
 import java.awt.EventQueue;
 
 import javax.swing.JFrame;
@@ -14,7 +13,6 @@ import javax.swing.JOptionPane;
 import javax.swing.ImageIcon;
 import javax.swing.JTextField;
 import java.awt.Font;
-import java.awt.SystemColor;
 
 import javax.swing.JPasswordField;
 import javax.swing.JButton;
@@ -22,6 +20,7 @@ import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import java.awt.Toolkit;
 
+@SuppressWarnings("serial")
 public class Login extends JFrame {
 
 	private JPanel contentPane;
@@ -88,16 +87,19 @@ public class Login extends JFrame {
 		
 		
 		
-		
+		/*
+		 * boton login: toma el valor del txtUsuario y del txtContrasena y los asigna a las variables usuario y pass respectivamente
+		 * luego, crea la variable boolean controlado y, le asigna el valor de loginController.listar() pasando las variables
+		 * usuario y clave como parametros.
+		 * en caso que el resultado sea true, carga el menu de usuario, caso contrario, muestra un mensaje de error
+		 * avisando que debe verificar el usuario y la contraseña (sin especificar donde esta el error por un tema
+		 * de seguridad) y vuelve a la pantalla de inicio.
+		 */
 		JButton btnLogin = new JButton("Login");
 		btnLogin.setIcon(new ImageIcon(Login.class.getResource("/imagenes/perfil-del-usuario.png")));
 		btnLogin.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 
-				
-				
-	//ADMIN			System.out.println("login controller"+loginController.listar(usuario, clave));
-				
 				String usuario = txtUsuario.getText();
 				String clave = new String(txtContrasena.getPassword());
 				
@@ -116,44 +118,6 @@ public class Login extends JFrame {
 
 				}
 				
-				
-				
-				
-//				
-//				revisarLogin(usuario);
-//				System.out.println("el usuario ingresado es= "+ usuario);
-//				System.out.println("la contraseña ingresada es= "+ clave);
-//				
-//				if(revisarUsuario(usuario) && revisarPass(clave)){
-//					System.out.println("correcto");
-//					
-//				}
-//				
-				
-//				String user = txtUsuario.getText();		
-//				String contrasena = new String(txtContrasena.getPassword());
-//
-//				LoginController loginController = new LoginController();
-//					
-//				loginController.getLogin();
-//				
-//				
-//				System.out.println("el usuario (en LOGIN.JAVA) es " +  user);
-//				System.out.println("la contraseña (en LOGIN.JAVA) es " + contrasena);		
-//				
-//			if (loginController.usrPassOk(user, contrasena)) {		
-//				MenuUsuario user = new MenuUsuario();
-//				user.setVisible(true);
-//				dispose();
-				
-//			} else {
-				
-//				JOptionPane.showMessageDialog(null, "Verifique su USUARIO y CONTRASEÑA y vuelva a intentarlo", "Error de Login", 0, null);				
-//				dispose();
-//				MenuPrincipal.main(null);
-//				System.out.println("no entro al if");
-//			}
-//			
 			}
 		});
 		btnLogin.setBounds(409, 322, 103, 33);
@@ -180,23 +144,4 @@ public class Login extends JFrame {
 		contentPane.add(lblNewLabel_1);
 	}
 
-//	public boolean revisarUsuario(String usuario) {
-//		
-//		return LoginController.revisarUsuario(usuario);
-//	}
-//	
-	
-//	public boolean revisarLogin(String Usuario){
-//		
-//		
-//		
-//		var empleados = this.loginController.listar();
-//
-//		empleados.forEach(
-//				huesped -> modelo.addRow(new Object[] { huesped.getId(), huesped.getNombre(), huesped.getApellido(),
-//						huesped.getFechaNacimiento(), huesped.getNacionalidad(), huesped.getTelefono(), huesped.getIdReserva() }));
-//		
-//		
-//		return true;
-//	}
 }

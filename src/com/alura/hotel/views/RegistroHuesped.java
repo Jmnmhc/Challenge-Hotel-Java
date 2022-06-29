@@ -102,8 +102,13 @@ public class RegistroHuesped extends JFrame {
 
 		JDateChooser txtFechaN = new JDateChooser();
 		txtFechaN.setBounds(576, 281, 255, 33);
+		
 		contentPane.add(txtFechaN);
 
+		
+		
+		
+		
 		JComboBox txtNacionalidad = new JComboBox();
 		txtNacionalidad.setFont(new Font("Arial", Font.PLAIN, 14));
 		txtNacionalidad.setModel(new DefaultComboBoxModel<String>(new String[] { "Afghanistan – Afeganistão",
@@ -247,6 +252,8 @@ public class RegistroHuesped extends JFrame {
 		btnCancelar.setBounds(764, 543, 54, 41);
 		contentPane.add(btnCancelar);
 
+		
+		
 		JButton btnGuardar = new JButton("");
 		btnGuardar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {

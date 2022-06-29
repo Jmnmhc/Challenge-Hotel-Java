@@ -1,6 +1,5 @@
 package com.alura.hotel.views;
 
-import java.awt.BorderLayout;
 import java.awt.EventQueue;
 
 import javax.swing.JFrame;
@@ -15,6 +14,7 @@ import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import java.awt.Toolkit;
 
+@SuppressWarnings("serial")
 public class MenuUsuario extends JFrame {
 
 	private JPanel contentPane;
