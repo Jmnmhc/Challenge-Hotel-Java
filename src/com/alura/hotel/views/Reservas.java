@@ -164,7 +164,7 @@ public class Reservas extends JFrame {
 		txtValor = new JTextField();
 		txtValor.setBounds(88, 303, 235, 33);
 		txtValor.setEnabled(false);
-		txtValor.setText("100");
+		//txtValor.setText("100");
 		panel.add(txtValor);
 		txtValor.setColumns(10);
 

@@ -219,6 +219,7 @@ public class Busqueda extends JFrame {
 
 		modelo2.addRow(listita2);
 
+		
 		cargarTablaReserva();
 
 		JButton btnEliminar = new JButton("");
@@ -302,9 +303,12 @@ public class Busqueda extends JFrame {
 	 */
 	private void cargarTablaReserva() {
 		var reservas = this.reservaController.listar();
-
-		reservas.forEach(reserva -> modelo2.addRow(new Object[] { reserva.getId(), reserva.getFechaEntrada(),
+		
+		reservas.forEach(reserva -> 
+			modelo2.addRow(new Object[] { reserva.getId(), reserva.getFechaEntrada(),
 				reserva.getFechaSalida(), reserva.getValor(), reserva.getFomaPago() }));
+	
+	
 	}
 
 	
@@ -329,6 +333,8 @@ public class Busqueda extends JFrame {
 
 		reservas.forEach(reserva -> modelo2.addRow(new Object[] { reserva.getId(), reserva.getFechaEntrada(),
 				reserva.getFechaSalida(), reserva.getValor(), reserva.getFomaPago() }));
+
+	
 	}
 
 	/*

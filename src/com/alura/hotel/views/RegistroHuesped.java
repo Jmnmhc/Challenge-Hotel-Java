@@ -25,6 +25,7 @@ import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import java.awt.SystemColor;
 import java.awt.event.ActionListener;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
@@ -102,12 +103,10 @@ public class RegistroHuesped extends JFrame {
 
 		JDateChooser txtFechaN = new JDateChooser();
 		txtFechaN.setBounds(576, 281, 255, 33);
-		
+				
+		txtFechaN.setMaxSelectableDate(fechaMayor());
+		txtFechaN.setDate(fechaMayor());
 		contentPane.add(txtFechaN);
-
-		
-		
-		
 		
 		JComboBox txtNacionalidad = new JComboBox();
 		txtNacionalidad.setFont(new Font("Arial", Font.PLAIN, 14));
@@ -115,7 +114,7 @@ public class RegistroHuesped extends JFrame {
 				"Afghan – afegão", "Andorra – Andorra", "Andorran – andorrano", "Angola – Angola", "Angolan – angolano",
 				"Antigua e Barbuda – Antígua e Barbuda", "Antiguan/Barbudan – antiguano", "Algeria – Argélia",
 				"Algerian – argelino", "Argentina – Argentina", "Argentinian – argentino", "Armenia – Armênia",
-				"Armenian – armênio", "Australia – Austrália", "Australian – australiano", "Austria – Áustria",
+				"Armenian – armenio", "Australia – Australia", "Australian – australiano", "Austria – Austria",
 				"Austrian – austríaco", "Azerbaijan – Azerbaijão", "Azerbaijani – azeri", "The Bahamas – Bahamas",
 				"Bahamian – bahamense", "Bangladesh – Bangladesh", "Bangladeshi – bangladês", "Barbados – Barbados",
 				"Barbadian – barbadiano", "Bahrain – Barém", "Bahraini – baremita", "Belarus – Bielorrússia",
@@ -152,7 +151,7 @@ public class RegistroHuesped extends JFrame {
 				"", "Guyana – Guiana", "Guyanese – guianense", "", "Haiti – Haiti", "Haitian – haitiano", "",
 				"Holland – Holanda", "Dutch – holandês", "", "Honduras – Honduras", "Honduran – hondurenho", "",
 				"Hungary – Hungria", "Hungarian – húngaro", "", "Iceland – Islândia", "Icelander – islandês", "",
-				"India – Índia", "Indian – indiano", "", "Indonesia – Indonésia", "Indonesian – indonésio", "",
+				"India – India", "Indian – indiano", "", "Indonesia – Indonésia", "Indonesian – indonésio", "",
 				"Iran – Irã", "Iranian – iraniano", "", "Ireland – Irlanda", "Irish – irlandês", "", "Israel – Israel",
 				"Israeli – israelita", "", "Italy – Itália", "Italian – italiano", "", "Ivory Coast – Costa do Marfim",
 				"Ivorian– costa-marfinense", "", "Jamaica – Jamaica", "Jamaican – jamaicano", "", "Japan – Japão",
@@ -199,7 +198,7 @@ public class RegistroHuesped extends JFrame {
 				"Sierra Leone – Serra Leoa", "Sierra Leonean – serra-leonês", "", "Singapore – Singapura",
 				"Singaporean – singapurense", "", "Slovakia – Eslováquia", "Slovak – eslovaco", "",
 				"Solomon Islands – Ilhas Salomão", "Solomon Islander – salomônico", "", "Somalia – Somália",
-				"Somali – somali", "", "South Africa – África do Sul", "South African – sul–africano", "",
+				"Somali – somali", "", "South Africa – Africa do Sul", "South African – sul–africano", "",
 				"South Korea – Coréia do Sul", "Korean – coreano", "", "South Sudan – Sudão do Sul",
 				"South Sudanese – sul-sudanense", "", "Spain – Espanha", "Spanish – espanhol", "",
 				"Sri Lanka – Sri Lanka", "Sri Lankan – srilankês", "", "Sudan – Sudão", "Sudanese – sudanense", "",
@@ -211,7 +210,7 @@ public class RegistroHuesped extends JFrame {
 				"Tunisia – Tunísia", "Tunisian – tunisiano", "Turkmenistan – Turcomenistão", "Turkmen – turcomeno",
 				"Turkey – Turquia", "Turkish – turco", "Tuvalu – Tuvalu", "Tuvaluan – tuvaluano", "Ukraine – Ucrânia",
 				"Ukrainian – ucraniano", "Uganda – Uganda", "Ugandan – ugandês", "Uruguay – Uruguai",
-				"Uruguayan – uruguaio", "United Arab Emirates – Emirados Árabes Unidos", "Emirati – árabe",
+				"Uruguayan – uruguaio", "United Arab Emirates – Emirados Arabes Unidos", "Emirati – árabe",
 				"United Kingdom – Reino Unido", "British – britânico", "United States of America – Estados Unidos",
 				"American – americano", "Uzbekistan – Usbequistão", "Uzbek – uzbeque", "Vanuatu – Vanuatu",
 				"Ni-vanuatu – vanuatuano", "Venezuela – Venezuela", "Venezuelan – venezuelano", "Vietnam – Vietnã",
@@ -257,22 +256,29 @@ public class RegistroHuesped extends JFrame {
 		JButton btnGuardar = new JButton("");
 		btnGuardar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				Exito exito = new Exito();
-				exito.setVisible(true);
-				dispose();
-
+				
 				String nombre = txtNombre.getText();
 				String apellido = txtApellido.getText();
 				Date fechaNac = txtFechaN.getDate();
 				String nacionalidad = txtNacionalidad.getSelectedItem().toString();
 				String telefono = txtTelefono.getText();
 				String nroReserva = txtNreserva.getText();
+				
+			
+			
+				
+				Exito exito = new Exito();
+				exito.setVisible(true);
+				dispose();
+
+
 
 				guardar(nombre, apellido, fechaNac, nacionalidad, telefono, nroReserva, entrada, salida, valor,
 						formaPago, idReserva);
 
+			
 			}
-		});
+			});
 
 		btnGuardar.setIcon(new ImageIcon(RegistroHuesped.class.getResource("/imagenes/disquete.png")));
 		btnGuardar.setBackground(SystemColor.menu);
@@ -379,4 +385,49 @@ public class RegistroHuesped extends JFrame {
 		huespedController.guardar(huesped, reserva);
 	}
 
+	
+		private Date fechaMayor () {
+			Calendar cal = Calendar.getInstance();  
+			Integer year = (cal.get(Calendar.YEAR))-18;
+			Integer mes = (cal.get(Calendar.MONTH)) +1;
+			Integer dia = cal.get(Calendar.DAY_OF_MONTH);
+			
+			String yearString = year.toString();
+			String mesString = mes.toString();
+			String diaString = dia.toString();
+						
+			String fechaFormateada = yearString + "/" + mesString + "/" + diaString;		
+					
+			Date resultado = null;
+			try {
+				resultado = new SimpleDateFormat("yyyy/MM/dd").parse(fechaFormateada);
+			} catch (ParseException e) {
+				System.out.println("se produjo un error" + e);;
+				}	
+			return resultado;
+		
+			
+		}
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 }
