@@ -25,21 +25,19 @@ La siguiente pantalla nos deja realizar una nueva reserva o buscar entre los usu
 
 En el caso de realizar una nueva reserva nos va a pedir la fecha de ingreso, la de egreso, nos va a dar el valor total de la reserva hay que elegir la forma de pago (por defecto es tarjeta de crédito) y luego hay que presionar el boton continuar.
 
-     <p align="center" >
+<p align="center" >
  <img width="600" heigth="600" src="img/imagenReserva.png">
 </p>
 
 En la siguiente ventana nos pide los datos del huesped (nombre, apellido, fecha de nacimiento, nacionalidad (por si hay que efectuar recargos/descuentos dependiendo su origen), fecha de nacimiento, numero de telefono) y nos da el numero de reserva que deberá ser informado al huesped.
 
-          <p align="center" >
+<p align="center" >
  <img width="600" heigth="600" src="img/imagenHuesped.png">
- </p>
+</p>
 
 En la ventana de busqueda nos va a dejar modificar los datos del huesped (no de la reserva) y eliminarlo (eliminandose tambien la reserva). Se podrá buscar huespedes por nombre y reservas por numero de reserva
 
-               <p align="center" >
+ <p align="center" >
  <img width="600" heigth="600" src="img/imagenBusqueda.png">
-
 </p>
-
 
