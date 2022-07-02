@@ -27,7 +27,7 @@ En el caso de realizar una nueva reserva nos va a pedir la fecha de ingreso, la 
 
 En la siguiente ventana nos pide los datos del huesped (nombre, apellido, fecha de nacimiento, nacionalidad (por si hay que efectuar recargos/descuentos dependiendo su origen), fecha de nacimiento, numero de telefono) y nos da el numero de reserva que deberá ser informado al huesped.
 
- <img width="600" heigth="600" src="img/imagenUsuario.png">
+ <img width="600" heigth="600" src="img/imagenHuesped.png">
  
 En la ventana de busqueda nos va a dejar modificar los datos del huesped (no de la reserva) y eliminarlo (eliminandose tambien la reserva). Se podrá buscar huespedes por nombre y reservas por numero de reserva
 
