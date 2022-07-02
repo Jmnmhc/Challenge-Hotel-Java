@@ -1,7 +1,14 @@
 # Challenge ONE | Java | Back-end | Hotel Alura
 
-<p align = "center-"> El sistema de manejo de habitaciones desarrollado para Hotel Alura parte de la siguiente base de datos realizada en MYSQL
+<p align = "center-"> El sistema de manejo de habitaciones desarrollado para Hotel Alura parte de la siguiente base de datos realizada en MYSQL</p>
 NOMBRE: Hotel_alura
+
+
+<p align="center" >
+     <img width="600" heigth="600" src="img/dbHotelAlura.png">
+</p>
+
+
 
 tablas:
 
